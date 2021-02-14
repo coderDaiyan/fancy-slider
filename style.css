@@ -1,3 +1,12 @@
+.home-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+}
+.home-button button {
+  width: 500px;
+  display: none;
+}
 #sliders {
   height: 400px;
   width: 60%;
@@ -36,7 +45,8 @@ img {
   cursor: pointer;
 }
 
-.prev, .next {
+.prev,
+.next {
   background-color: transparent;
   padding: 8px 10px;
   color: #fff;
