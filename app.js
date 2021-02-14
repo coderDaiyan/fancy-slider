@@ -52,6 +52,9 @@ const createSlider = () => {
   if (sliders.length < 2) {
     alert("Select at least 2 image.");
     return;
+    // Handle Negative Duration
+    let duration = document.getElementById("duration").value || 1000;
+    duration < 1000 ? (duration = 1000) : duration;
   }
   // crate slider previous next area
   sliderContainer.innerHTML = "";
@@ -67,10 +70,6 @@ const createSlider = () => {
   document.querySelector(".main").style.display = "block";
   // hide image aria
   imagesArea.style.display = "none";
-
-  const durationField = document.getElementById("duration").value;
-  const duration = !(durationField < 1000) ? durationField : 1000;
-
   sliders.forEach((slide) => {
     let item = document.createElement("div");
     item.className = "slider-item";
@@ -132,13 +131,9 @@ sliderBtn.addEventListener("click", function () {
 // Handle Enter Button
 
 searchInput.addEventListener("keypress", function (event) {
-  if (searchInput.value == "") {
-    alert("Please Type Something");
-  } else {
-    // Event key
-    if (event.key == "Enter") {
-      searchImg();
-    }
+  // Event key
+  if (event.key == "Enter") {
+    searchImg();
   }
 });
 
