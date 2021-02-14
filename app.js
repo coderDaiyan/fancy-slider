@@ -49,8 +49,10 @@ const selectItem = (event, img) => {
   let item = sliders.indexOf(img);
   if (item === -1) {
     sliders.push(img);
+  } else {
+    sliders.splice(item, 1);
+    element.classList.toggle("added");
   }
-  element.classList.toggle("added");
 };
 var timer;
 const createSlider = () => {
