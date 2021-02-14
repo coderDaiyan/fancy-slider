@@ -5,6 +5,9 @@ const searchBtn = document.getElementById("search-btn");
 const searchInput = document.getElementById("search");
 const sliderBtn = document.getElementById("create-slider");
 const sliderContainer = document.getElementById("sliders");
+const durationInput = document.getElementById("duration").value;
+const spinnerDiv = document.getElementById("loading-spinner");
+const spinner = document.getElementById("spinner");
 // selected image
 let sliders = [];
 
@@ -12,6 +15,17 @@ let sliders = [];
 // Find the name in the url and go to their website
 // to create your own api key
 const KEY = "15674931-a9d714b6e9d654524df198e00&q";
+
+// Get the images
+const getImages = (query) => {
+  toggleSpinner();
+  fetch(
+    `https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`
+  )
+    .then((response) => response.json())
+    .then((data) => showImages(data.hits))
+    .catch((err) => console.log(err));
+};
 
 // show images
 const showImages = (images) => {
@@ -25,15 +39,7 @@ const showImages = (images) => {
     div.innerHTML = `<img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
     gallery.appendChild(div);
   });
-};
-
-const getImages = (query) => {
-  fetch(
-    `https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`
-  )
-    .then((response) => response.json())
-    .then((data) => showImages(data.hits))
-    .catch((err) => console.log(err));
+  toggleSpinner();
 };
 
 let slideIndex = 0;
@@ -52,9 +58,6 @@ const createSlider = () => {
   if (sliders.length < 2) {
     alert("Select at least 2 image.");
     return;
-    // Handle Negative Duration
-    let duration = document.getElementById("duration").value || 1000;
-    duration < 1000 ? (duration = 1000) : duration;
   }
   // crate slider previous next area
   sliderContainer.innerHTML = "";
@@ -70,6 +73,9 @@ const createSlider = () => {
   document.querySelector(".main").style.display = "block";
   // hide image aria
   imagesArea.style.display = "none";
+
+  const duration = durationInput < 1000 ? 1000 : durationInput;
+
   sliders.forEach((slide) => {
     let item = document.createElement("div");
     item.className = "slider-item";
@@ -145,4 +151,8 @@ const searchImg = () => {
     sliders.length = 0;
     searchInput.value = "";
   }
+};
+
+const toggleSpinner = () => {
+  spinner.classList.toggle("d-none");
 };
