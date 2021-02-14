@@ -1,3 +1,10 @@
+/*
+Extra Features: 
+  1.If the search input value is empty it will show a error
+  2. When tha slider displays there is button that redirect you to the home page
+  3. When you will press enter or button there will be a spinner
+*/
+
 const imagesArea = document.querySelector(".images");
 const gallery = document.querySelector(".gallery");
 const galleryHeader = document.querySelector(".gallery-header");
@@ -5,7 +12,6 @@ const searchBtn = document.getElementById("search-btn");
 const searchInput = document.getElementById("search");
 const sliderBtn = document.getElementById("create-slider");
 const sliderContainer = document.getElementById("sliders");
-const durationInput = document.getElementById("duration").value;
 const spinnerDiv = document.getElementById("loading-spinner");
 const spinner = document.getElementById("spinner");
 // selected image
@@ -77,6 +83,7 @@ const createSlider = () => {
   // hide image aria
   imagesArea.style.display = "none";
 
+  const durationInput = document.getElementById("duration").value;
   const duration = durationInput < 1000 ? 1000 : durationInput;
 
   sliders.forEach((slide) => {
@@ -121,20 +128,7 @@ const changeSlide = (index) => {
 };
 
 searchBtn.addEventListener("click", function () {
-  if (searchInput.value == "") {
-    // Empty String
-    alert("Please Type Something");
-  } else {
-    document.querySelector(".main").style.display = "none";
-    clearInterval(timer);
-    const search = document.getElementById("search");
-    getImages(search.value);
-    sliders.length = 0;
-  }
-});
-
-sliderBtn.addEventListener("click", function () {
-  createSlider();
+  search();
 });
 
 // Handle Enter Button
@@ -142,18 +136,24 @@ sliderBtn.addEventListener("click", function () {
 searchInput.addEventListener("keypress", function (event) {
   // Event key
   if (event.key == "Enter") {
-    searchImg();
+    search();
   }
 });
 
-const searchImg = () => {
+const search = () => {
   if (searchInput.value != "") {
     document.querySelector(".main").style.display = "none";
     clearInterval(timer);
     getImages(searchInput.value);
     sliders.length = 0;
     searchInput.value = "";
+  } else {
+    alert("Please Type Something!");
   }
+  sliderBtn.addEventListener("click", function () {
+    createSlider();
+    document.getElementById("duration").value = "";
+  });
 };
 
 const toggleSpinner = () => {
