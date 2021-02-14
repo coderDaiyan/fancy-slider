@@ -45,13 +45,14 @@ const showImages = (images) => {
 let slideIndex = 0;
 const selectItem = (event, img) => {
   let element = event.target;
+  element.classList.add("added");
 
   let item = sliders.indexOf(img);
   if (item === -1) {
     sliders.push(img);
   } else {
     sliders.splice(item, 1);
-    element.classList.toggle("added");
+    element.classList.remove("added");
   }
 };
 var timer;
